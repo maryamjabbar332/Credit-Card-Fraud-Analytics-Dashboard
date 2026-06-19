@@ -1,0 +1,80 @@
+
+Power BI DAX Measures
+
+Total Transactions =
+COUNTROWS(creditcard)
+
+Fraud Transactions =
+CALCULATE(
+    COUNTROWS(creditcard),
+    creditcard[Class] = 1
+)
+
+Legit Transactions =
+CALCULATE(
+    COUNTROWS(creditcard),
+    creditcard[Class] = 0
+)
+
+Fraud Rate % =
+DIVIDE(
+    [Fraud Transactions],
+    [Total Transactions]
+)
+
+Total Transaction Value =
+SUM(creditcard[Amount])
+
+Fraud Loss Value =
+CALCULATE(
+    SUM(creditcard[Amount]),
+    creditcard[Class] = 1
+)
+
+Legit Transaction Value =
+CALCULATE(
+    SUM(creditcard[Amount]),
+    creditcard[Class] = 0
+)
+
+Average Fraud Amount =
+CALCULATE(
+    AVERAGE(creditcard[Amount]),
+    creditcard[Class] = 1
+)
+
+Average Legit Amount =
+CALCULATE(
+    AVERAGE(creditcard[Amount]),
+    creditcard[Class] = 0
+)
+
+Fraud per 1,000 Transactions =
+DIVIDE(
+    [Fraud Transactions],
+    [Total Transactions]
+) * 1000
+
+Amount Category =
+SWITCH(
+    TRUE(),
+    creditcard[Amount] <= 100, "Low (0-100)",
+    creditcard[Amount] <= 500, "Medium (101-500)",
+    "High (500+)"
+)
+
+Hour of Day =
+MOD(
+    INT(creditcard[Time] / 3600),
+    24
+)
+
+Day =
+INT(creditcard[Time] / 86400) + 1
+
+Fraud Label =
+IF(
+    creditcard[Class] = 1,
+    "Fraud",
+    "Normal"
+)

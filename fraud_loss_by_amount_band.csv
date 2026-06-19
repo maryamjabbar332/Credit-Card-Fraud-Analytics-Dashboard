@@ -1,0 +1,4 @@
+Amount Category,Fraud_Transactions,Fraud_Loss
+Low (£0-100),362,7019.26
+Medium (£101-500),95,21913.81
+High (£500+),35,31194.9
